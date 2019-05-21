@@ -1,0 +1,161 @@
+package userAcctMgmtGUI;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import userAcctMgmt.UserAccount;
+import userAcctMgmt.UserAccountBag;
+
+
+public class MainFrame extends JFrame {
+	
+	UserAccountBag acctBag = new UserAccountBag();
+	FlowLayout flow = new FlowLayout();
+	JPanel panel = new JPanel();
+	
+	public MainFrame(String title) throws Exception {
+		super(title);	
+	    signIn();
+	}
+	
+	
+	public void signIn() {
+		// SET LAYOUT
+		flow.setHgap(100);
+		flow.setVgap(100);
+		panel.setLayout(flow);
+		
+		// CREATE COMPONENTS
+		JButton signIn = new JButton("Sign In");
+		JButton signUp = new JButton("Sign Up");
+		
+		JLabel userName = new JLabel("Username: ");
+		JLabel passWord = new JLabel("Password: ");
+		
+		JTextField userNameField = new JTextField(10);
+		JTextField passWordField = new JTextField(10);
+		
+		//ADD COMPONENTS TO PANE
+		panel.add(userName);
+		panel.add(userNameField);
+		panel.add(passWord);
+		panel.add(passWordField);
+		panel.add(signIn);
+		panel.add(signUp);
+		setContentPane(panel);
+	    
+	    // ADD BEHAVIOR
+		signIn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// USERNAME AND PASSWORD VALIDATION
+				String userName = userNameField.getText();
+				String passWord = passWordField.getText();
+					
+					if(acctBag.searchAccount(userName, passWord) == false) {
+						// FAILURE
+						JOptionPane.showMessageDialog(null,"             Failure");
+					} else {
+						// DISPLAY SUCCESS
+						JOptionPane.showMessageDialog(null,"             Success");
+					}
+					
+				} 
+				
+			});
+		
+		
+		signUp.addActionListener(new ActionListener() {
+            @Override
+			public void actionPerformed(ActionEvent e) {
+            	signUp();
+			}
+			
+		});
+	}
+	
+	
+	
+	
+	public void signUp(){
+		
+		// SET LAYOUT
+    	panel.removeAll();
+    	flow.setHgap(50);
+    	flow.setVgap(50);
+		panel.setLayout(flow);
+		
+		// CREATE COMPONENTS
+		JButton finished = new JButton("Finished");
+		
+		JLabel firstName = new JLabel("First Name: ");
+		JLabel lastName = new JLabel("Last Name: ");
+		JLabel gender = new JLabel("Gender: ");
+		JLabel gpa = new JLabel("GPA: ");
+		JLabel passWord = new JLabel("Password: ");
+		
+		JTextField firstNameField = new JTextField(10);
+		JTextField lastNameField = new JTextField(10);
+		JTextField genderField = new JTextField(10);
+		JTextField gpaField = new JTextField(10);
+		JTextField userNameField = new JTextField(10);
+		JTextField passWordField = new JTextField(10);
+		
+		//ADD COMPONENTS TO PANE
+		panel.add(firstName);
+		panel.add(firstNameField);
+		panel.add(lastName);
+		panel.add(lastNameField);
+		panel.add(gender);
+		panel.add(genderField);
+		panel.add(gpa);
+		panel.add(gpaField);
+		panel.add(passWord);
+		panel.add(passWordField);
+		panel.add(finished);
+		setContentPane(panel);
+		
+		
+		// ADD BEHAVIOR
+		finished.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+				String firstName = firstNameField.getText();
+				String lastName = lastNameField.getText();
+				String gender = genderField.getText();
+				String passWord = passWordField.getText();
+				String gpa = gpaField.getText();
+				
+				if(firstNameField.getText().trim().isEmpty() || lastNameField.getText().trim().isEmpty() ||
+						genderField.getText().trim().isEmpty() || passWordField.getText().trim().isEmpty() ||
+						gpaField.getText().trim().isEmpty()) {
+					
+					JOptionPane.showMessageDialog(null,"Please fill in all fields");
+				}else {
+				
+				UserAccount newAcct = new UserAccount(firstName, lastName, gender, passWord, gpa);
+				
+						
+				if(newAcct.checkPassWord(passWord) == false) {
+					JOptionPane.showMessageDialog(null,"Please enter password in correct format");
+				}
+				else if(newAcct.checkGPAEntry(gpa) == true) {
+						acctBag.insertAccount(newAcct);
+						JOptionPane.showMessageDialog(null,"Success, Your User Name Is: "+newAcct.getUserName());
+						panel.removeAll();
+						signIn();
+						
+				}else {
+					JOptionPane.showMessageDialog(null,"Please enter GPA in correct format");
+				}
+				
+			}
+		}
+	});
+	  
+		
+}
+	
+}
