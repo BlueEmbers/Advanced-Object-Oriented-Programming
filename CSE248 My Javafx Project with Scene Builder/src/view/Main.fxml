@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+   <children>
+      <Button fx:id="click_me" layoutX="164.0" layoutY="288.0" mnemonicParsing="false" text="Click Me" />
+      <ComboBox fx:id="stateBox" layoutX="175.0" layoutY="101.0" onAction="#stateSelected" prefWidth="150.0" promptText="Select a state" />
+      <Button fx:id="cancel" layoutX="284.0" layoutY="288.0" mnemonicParsing="false" onAction="#canceled" text="Cancel" />
+      <DatePicker fx:id="datePicker" layoutX="153.0" layoutY="187.0" />
+   </children>
+</AnchorPane>
